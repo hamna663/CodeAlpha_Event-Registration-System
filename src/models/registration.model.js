@@ -1,0 +1,26 @@
+import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+
+const eventSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  eventId: {
+    type: Schema.Types.ObjectId,
+    ref: "Event",
+    required: true,
+  },
+  registrationDate: {
+    type: Date,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["registered", "cancelled"],
+    default: "registered",
+  },
+});
+
+export const Event = mongoose.model("Event", eventSchema);
