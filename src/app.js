@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import { userRouter } from "./routes/user.route.js";
+import { adminRouter } from "./routes/admin.route.js";
 import { connectDB } from "./dbConfig.js";
 import "dotenv/config";
 
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRouter);
+app.use('/api/admin',adminRouter);
 
 app.get("/", (req, res) => {
   console.log("Hello ");

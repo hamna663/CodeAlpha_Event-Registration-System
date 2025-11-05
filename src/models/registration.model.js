@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import mongoose, { Schema } from "mongoose";
 
-const eventSchema = new Schema({
+const registrationSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -10,10 +10,6 @@ const eventSchema = new Schema({
   eventId: {
     type: Schema.Types.ObjectId,
     ref: "Event",
-    required: true,
-  },
-  registrationDate: {
-    type: Date,
     required: true,
   },
   status: {
@@ -25,4 +21,4 @@ const eventSchema = new Schema({
     timestamps:true
 });
 
-export const Event = mongoose.model("Event", eventSchema);
+export const Registration = mongoose.model("Registration", registrationSchema);
