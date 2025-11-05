@@ -21,6 +21,8 @@ const eventSchema = new Schema({
     enum: ["registered", "cancelled"],
     default: "registered",
   },
+},{
+    timestamps:true
 });
 
 export const Event = mongoose.model("Event", eventSchema);
