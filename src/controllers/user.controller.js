@@ -27,41 +27,45 @@ const signup = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res
-      .status(400)
-      .json({ message: "Please provide all the required fields" });
-  }
-  try {
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Wrong Password" });
-    }
-    jwt.sign(
-      user._id,
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: "15d" },
-      (err, token) => {
-        if (err) {
+    const login = async (req, res) => {
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res
+          .status(400)
+          .json({ message: "Please provide all the required fields" });
+      }
+      try {
+        const user = await User.findOne({ email });
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+          return res.status(401).json({ message: "Wrong Password" });
+        }
+        console.log("jwt secret in sign: ", process.env.JWT_SECRET_KEY);
+        console.log(user._id);
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY, {
+          expiresIn: "15d",
+        });
+        console.log(token);
+        if (!token) {
           return res.status(500).json({ message: "Failed to Login" });
         }
-        return res
-          .status(200)
-          .json({ message: "Login successful", user })
-          .header("Authorization", token);
+        const userWithoutPassword = { ...user.toObject() };
+        delete userWithoutPassword.password;
+
+        // Set both header and include token in response
+        res.set("Authorization", `Bearer ${token}`);
+        return res.status(200).json({
+          message: "Login successful",
+          user: userWithoutPassword,
+        });
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Something went wrong" });
       }
-    );
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Something went wrong" });
-  }
-};
+    };
 
 const register = async (req, res) => {
   const { eventId } = req.body;
@@ -93,7 +97,9 @@ const register = async (req, res) => {
 const myRegistrations = async (req, res) => {
   const userId = req.user._id;
   try {
-    const registrations = await Registration.find({ userId }).populate("eventId");
+    const registrations = await Registration.find({ userId }).populate(
+      "eventId"
+    );
     return res.status(200).json({
       message: "User registrations fetched successfully",
       registrations,

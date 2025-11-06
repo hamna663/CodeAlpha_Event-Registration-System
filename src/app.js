@@ -1,11 +1,11 @@
 import express from "express";
-import cookieParser from "cookie-parser";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import { userRouter } from "./routes/user.route.js";
 import { adminRouter } from "./routes/admin.route.js";
 import { connectDB } from "./dbConfig.js";
-import "dotenv/config";
+// import "dotenv/config";
 
 const app = express();
 try {
@@ -19,11 +19,10 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRouter);
-app.use('/api/admin',adminRouter);
+app.use("/api/admin", adminRouter);
 
 app.get("/", (req, res) => {
-  console.log("Hello ");
-  res.send("Hello");
+  res.send("Welcome to Event Management System");
 });
 
 export { app };

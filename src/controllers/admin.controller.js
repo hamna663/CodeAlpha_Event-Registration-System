@@ -1,6 +1,7 @@
-import { Event } from "../models/event.model";
+import { Event } from "../models/event.model.js";
 
 const createEvent = async (req, res) => {
+  console.log(req)
   const { title, description, dateTime, location, capacity } = req.body;
   const createdBy = req.user._id;
   if (!title || !description || !dateTime || !location || !capacity) {
