@@ -1,4 +1,0 @@
-import jwt from "jsonwebtoken";
-
-
-console.log(jwt.decode("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGY2Mjg2NGVlYTgzMjU2ZTU1NGMzYWQiLCJpYXQiOjE3NjE3MDMxNDYsImV4cCI6MTc2Mjk5OTE0Nn0.1JBuW0MexyCz-ZbBzcK4BiS9X2hJVHh8QR2U96lj8jI"))

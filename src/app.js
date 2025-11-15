@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import { userRouter } from "./routes/user.route.js";
 import { adminRouter } from "./routes/admin.route.js";
 import { connectDB } from "./dbConfig.js";
-// import "dotenv/config";
 
 const app = express();
 try {
